@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_anonymous %}
+  <h1>Hello, stranger!</h1>
+{% else  %}
+  <h1>Hi, {{ current_user.username }}!</h1>
+  <form action="/search/" method="POST">
+    <label for="bookISBN">ISBN:</label><br>
+    <input type="text" id="bookISBN" name="bookISBN" value="9781449372620"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <br>
+
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Authors</th> 
+      <th>Page Count</th>
+      <th>Rating</th>
+      <th>Action</th>
+    </tr>
+  {% for book in books %}
+  <tr>
+  <td>{{book['title']}}</td>
+  <td>{{book['authors']}}</td>
+  <td>{{book['pageCount']}}</td>
+  <td>{{book['rating']}}</td>
+  <td><a href='/delete/{{book.isbn}}'>Delete</a></td>
+  </tr>
+  {% endfor %}
+  </table>
+{% endif %}
+{% endblock %}
